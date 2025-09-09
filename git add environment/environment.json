@@ -1,1 +1,5 @@
-
+name: "dev-environment"
+location: "eastus"
+summary: "Development environment for testing infrastructure templates"
+runner: "Bicep"
+templatePath: "templates/main.bicep"
