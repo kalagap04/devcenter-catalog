@@ -1,10 +1,29 @@
 trigger:
   - main
 
+variables:
+  environmentName: 'dev-environment'
+  location: 'eastus'
+  resourceGroupName: 'rg-devcenter-demo'
+
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - script: ./run.sh
-    displayName: 'Run Shell Script'
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'MyAzureServiceConnection'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        echo "Provisioning environment from Dev Center..."
+        az deployment group create \
+          --resource-group ${{ variables.resourceGroupName }} \
+          --template-file templates/main.bicep \
+          --parameters environmentName=${{ variables.environmentName }} location=${{ variables.location }}
+    displayName: 'Provision Dev Center Environment'
 
+  - script: |
+      echo "Deploying app code..."
+      # Add your deployment logic here (e.g., zip deploy, container push, etc.)
+    displayName: 'Deploy Application Code'
