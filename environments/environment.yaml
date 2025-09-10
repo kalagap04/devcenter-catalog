@@ -4,3 +4,5 @@ summary: Azure Web App Environment
 description: Deploys a web app in Azure without a datastore
 runner: ARM
 templatePath: azuredeploy.json
+parameters:
+  appName: dev-webapp
